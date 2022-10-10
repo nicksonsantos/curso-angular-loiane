@@ -1,0 +1,10 @@
+<section class="ciclo-de-vida-component">
+  <article>
+    <h3>Ciclo de vida do component</h3>
+    <div>
+      <input type="text" value="{{ valorInicial }}" *ngIf="!deletarCiclo">
+      <button class="btn btn-primary" (click)="mudarValor()">Mudar Valor</button>
+      <button class="btn btn-danger" (click)="destruirCiclo()">Destruir</button>
+    </div>
+  </article>
+</section>
