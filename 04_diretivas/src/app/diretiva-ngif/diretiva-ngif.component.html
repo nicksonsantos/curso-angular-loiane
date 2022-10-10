@@ -1,4 +1,7 @@
-<h5>*ngIf</h5>
+<h3>*ngIf</h3>
+<p>Recomendado para árvore de elementos grandes</p>
+
+<p>Utilizando a expressão *ngIf="cursos.length > 0"</p>
 
 <div *ngIf="cursos.length > 0">
   Lista de cursos aqui: {{ cursos }}
@@ -6,6 +9,8 @@
 <div *ngIf="cursos.length == 0">
   Não existem cursos para serem listados
 </div>
+
+<p>Utilizando a expressão *ngIf="mostrarCursos"</p>
 
 <div *ngIf="mostrarCursos">
   Lista de cursos aqui: {{ cursos }}
@@ -17,7 +22,10 @@
 <br>
 <button (click)="onMostrarCursos()">Mostrar ou esconder cursos</button>
 
-<h5>Hidden como alternativa</h5>
+<h4>Hidden como alternativa</h4>
+<p>Recomendado para arvores de elementos pequenas</p>
+
+<p>Utilizando a expressão propriedade [hidden]</p>
 <div [hidden]="!mostrarCursos">
   Lista de cursos aqui: {{ cursos }}
 </div>
