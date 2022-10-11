@@ -1,0 +1,17 @@
+<h1>
+  <span class="glyphicon"
+  [class.glyphicon-star-empty]="!isBookmarked"
+  [class.glyphicon-star]="isBookmarked"
+  (click)="onClick()">
+  </span>
+</h1>
+
+<h1>
+  <span class="glyphicon"
+  [ngClass]="{
+    'glyphicon-star-empty': !isBookmarked,
+    'glyphicon-star': isBookmarked
+  }"
+  (click)="onClick()">
+  </span>
+</h1>
