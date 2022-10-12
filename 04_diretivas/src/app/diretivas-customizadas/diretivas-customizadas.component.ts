@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DiretivasCustomizadasComponent implements OnInit {
 
+  isMouseOver: boolean = false;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onMouseEnterOrLeave(){
+    this.isMouseOver = !this.isMouseOver;
   }
 
 }

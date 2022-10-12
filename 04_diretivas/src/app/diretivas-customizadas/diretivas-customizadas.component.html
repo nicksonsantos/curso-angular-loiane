@@ -1,3 +1,13 @@
 <p FundoAmarelo>Texto com fundo amarelo</p>
 
 <button FundoAmarelo>Botão com fundo amarelo</button>
+
+<p [ngStyle]="{
+  'fontWeight' : (isMouseOver ? 'bold' : 'normal')
+  }" (mouseenter)="onMouseEnterOrLeave()" (mouseleave)="onMouseEnterOrLeave()">
+  Texto com highlight quando passo o mouse
+</p>
+
+<p highlightMouse>
+  Texto com highlight quando passo o mouse
+</p>
