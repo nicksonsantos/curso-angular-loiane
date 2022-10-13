@@ -9,6 +9,8 @@ export class DiretivasCustomizadasComponent implements OnInit {
 
   isMouseOver: boolean = false;
 
+  corSelecionada: string = '';
+
   constructor() { }
 
   ngOnInit(): void {
@@ -17,5 +19,10 @@ export class DiretivasCustomizadasComponent implements OnInit {
   onMouseEnterOrLeave(){
     this.isMouseOver = !this.isMouseOver;
   }
+
+  mudaCor(evento: any){
+    this.corSelecionada = evento.target.value;
+  }
+
 
 }

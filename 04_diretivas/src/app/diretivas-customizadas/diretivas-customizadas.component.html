@@ -5,9 +5,18 @@
 <p [ngStyle]="{
   'fontWeight' : (isMouseOver ? 'bold' : 'normal')
   }" (mouseenter)="onMouseEnterOrLeave()" (mouseleave)="onMouseEnterOrLeave()">
-  Texto com highlight quando passo o mouse
+  Texto com highlight quando passo o mouse.
 </p>
 
 <p highlightMouse>
-  Texto com highlight quando passo o mouse
+  Texto com highlight quando passo o mouse.
 </p>
+
+<p [highlight]="corSelecionada">
+  Texto com highlight com cores customizadas.
+</p>
+<br>
+
+<input type="color" (input)="mudaCor($event)">
+
+{{ corSelecionada }}
