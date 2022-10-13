@@ -11,6 +11,10 @@ export class DiretivasCustomizadasComponent implements OnInit {
 
   corSelecionada: string = '';
 
+  mostrarCursos: boolean = false;
+
+  cursos: string[] = [];
+
   constructor() { }
 
   ngOnInit(): void {
@@ -24,5 +28,8 @@ export class DiretivasCustomizadasComponent implements OnInit {
     this.corSelecionada = evento.target.value;
   }
 
+  onMostrarCursos(){
+    this.mostrarCursos = !this.mostrarCursos;
+  }
 
 }

@@ -20,3 +20,20 @@
 <input type="color" (input)="mudaCor($event)">
 
 {{ corSelecionada }}
+
+<div *ngIf="mostrarCursos">
+  Lista de cursos aqui: {{ cursos }}
+</div>
+<div *ngElse="mostrarCursos">
+  Não existem cursos para serem listados
+</div>
+
+<br>
+<button class="btn btn-primary" (click)="onMostrarCursos()">Mostrar ou esconder cursos</button>
+<br>
+
+<template [ngElse]="mostrarCursos">
+  <div>
+    Não Existem cursos para serem listados.
+  </div>
+</template>
