@@ -8,6 +8,8 @@ import { CamelCasePipe } from './camel-case.pipe';
 import { registerLocaleData } from '@angular/common';
 import localePtBr from '@angular/common/locales/pt';
 import { SettingsService } from './settings.service';
+import { FiltroArrayPipe } from './filtro-array.pipe';
+import { FormsModule } from '@angular/forms';
 
 registerLocaleData(localePtBr);
 
@@ -15,11 +17,13 @@ registerLocaleData(localePtBr);
   declarations: [
     AppComponent,
     ExemplosPipesComponent,
-    CamelCasePipe
+    CamelCasePipe,
+    FiltroArrayPipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule
   ],
   providers: [
     // {

@@ -24,3 +24,18 @@
 <h5>Pipes customizadas</h5>
 
 <p>Título: {{ livro.titulo | camelCase }}</p>
+
+Filtro
+<input type="text" placeholder="Ex: Java" [(ngModel)]="filtro">
+<br>
+
+<ul>
+  <li *ngFor="let liv of livros | filtroArray:filtro">
+    {{ liv }}
+  </li>
+</ul>
+
+<input type="text" placeholder="Ex: Java" #novoValor>
+<button (click)="addCurso(novoValor.value)">Add Curso</button>
+<br>
+
