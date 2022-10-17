@@ -6,7 +6,7 @@
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
       <a routerLink="/login" routerLinkActive="active" class="nav-link">Login</a>
-      <a routerLink="/cursos" routerLinkActive="active" class="nav-link">Cursos</a>
+      <a routerLink="/cursos" routerLinkActive="active" [queryParams]="{pagina:1}" class="nav-link">Cursos</a>
       <a [routerLink]="['curso', idCurso.value]" routerLinkActive="active" class="nav-link">Curso com ID</a>
     </div>
   </div>
