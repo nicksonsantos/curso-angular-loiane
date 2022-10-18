@@ -7,15 +7,15 @@
     <div class="navbar-nav">
       <a routerLink="/login" routerLinkActive="active" class="nav-link">Login</a>
       <a routerLink="/cursos" routerLinkActive="active" [queryParams]="{pagina:1}" class="nav-link">Cursos</a>
-      <a [routerLink]="['curso', idCurso.value]" routerLinkActive="active" class="nav-link">Curso com ID</a>
+      <!-- <a [routerLink]="['curso', idCurso.value]" routerLinkActive="active" class="nav-link">Curso com ID</a> -->
       <a routerLink="/alunos" routerLinkActive="active" class="nav-link">Alunos</a>
     </div>
   </div>
 </nav>
 
 <div class="container">
-  <p>Entre com o id do curso</p>
-  <input #idCurso (input)="0">
+  <!-- <p>Entre com o id do curso</p>
+  <input #idCurso (input)="0"> -->
   <br><br>
   <router-outlet></router-outlet>
 </div>
