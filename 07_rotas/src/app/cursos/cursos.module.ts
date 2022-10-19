@@ -6,7 +6,7 @@ import { CursosComponent } from './cursos.component';
 import { CursoDetalheComponent } from './curso-detalhe/curso-detalhe.component';
 import { CursosService } from './cursos.service';
 import { CursoNaoEncontradoComponent } from './curso-nao-encontrado/curso-nao-encontrado.component';
-import { AppRoutingModule } from '../app-routing.module';
+import { CursosRoutingModule } from './cursos-routing.module';
 
 
 
@@ -19,7 +19,7 @@ import { AppRoutingModule } from '../app-routing.module';
   ],
   imports: [
     CommonModule,
-    AppRoutingModule
+    CursosRoutingModule
   ],
   exports: [],
   providers: [

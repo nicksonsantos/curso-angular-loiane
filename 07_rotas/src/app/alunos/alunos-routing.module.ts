@@ -6,12 +6,11 @@ import { AlunoFormComponent } from './aluno-form/aluno-form.component';
 
 
 const alunosRoutes = [
-  {path: 'alunos', component: AlunosComponent, children: [
+  {path: '', component: AlunosComponent, children: [
     {path: 'novo', component: AlunoFormComponent},
     {path: ':id', component: AlunoDetalhesComponent},
     {path: ':id/editar', component: AlunoFormComponent}
-  ]},
-
+  ]}
 ];
 
 @NgModule({
