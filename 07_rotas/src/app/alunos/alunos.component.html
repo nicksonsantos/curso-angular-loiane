@@ -1,12 +1,18 @@
-<p>
-  Lista de Alunos
-</p>
-<div class="list-group">
-  <a class="list-group-item list-group-item-action list-group-item-primary"
-    *ngFor="let aluno of alunos"
-    [routerLink]="['/aluno', aluno.id]">
-    {{ aluno.nome }}
-  </a>
+<div class="row">
+  <div class="col-6">
+    <h5>
+      Lista de Alunos
+    </h5>
+    <div class="list-group">
+      <a class="list-group-item list-group-item-action list-group-item-primary"
+        *ngFor="let aluno of alunos"
+        [routerLink]="[aluno.id]">
+        {{ aluno.nome }}
+      </a>
+    </div>
+  </div>
+  <div class="col-6">
+    <router-outlet></router-outlet>
+  </div>
 </div>
 
-<router-outlet></router-outlet>

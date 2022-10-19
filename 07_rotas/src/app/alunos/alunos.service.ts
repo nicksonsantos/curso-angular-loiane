@@ -15,5 +15,14 @@ export class AlunosService {
     return this.alunos;
   }
 
+  getAluno(id: any) {
+    for (let aluno of this.alunos) {
+      if (aluno.id == id) {
+        return aluno;
+      }
+    }
+    return null;
+  }
+
   constructor() { }
 }

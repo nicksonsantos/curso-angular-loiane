@@ -5,6 +5,7 @@ import { AlunoFormComponent } from './aluno-form/aluno-form.component';
 import { AlunoDetalhesComponent } from './aluno-detalhes/aluno-detalhes.component';
 import { AlunosRoutingModule } from './alunos-routing.module';
 import { AlunosService } from './alunos.service';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -16,7 +17,8 @@ import { AlunosService } from './alunos.service';
   ],
   imports: [
     CommonModule,
-    AlunosRoutingModule
+    AlunosRoutingModule,
+    FormsModule
   ],
   providers: [AlunosService]
 })
