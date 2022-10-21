@@ -9,6 +9,7 @@ import { AlunosRoutingModule } from './alunos-routing.module';
 import { AlunosService } from './alunos.service';
 import { AlunosGuard } from '../guards/alunos.guard';
 import { AlunosDeactivateGuard } from '../guards/alunos-deactivate.guard';
+import { AlunoDetalhesResolver } from '../guards/aluno-detalhes.resolver';
 
 
 
@@ -27,7 +28,8 @@ import { AlunosDeactivateGuard } from '../guards/alunos-deactivate.guard';
   providers: [
     AlunosService,
     AlunosGuard,
-    AlunosDeactivateGuard
+    AlunosDeactivateGuard,
+    AlunoDetalhesResolver
   ]
 })
 export class AlunosModule { }
