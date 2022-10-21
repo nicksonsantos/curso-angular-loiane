@@ -9,12 +9,10 @@ export class AlunosGuard implements CanActivateChild {
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      console.log(childRoute);
-      console.log(state);
 
       if (state.url.includes('editar')) {
-        alert('Usuário sem acesso');
-        return false;
+        // alert('Usuário sem acesso');
+        // return false;
       }
 
       return true;

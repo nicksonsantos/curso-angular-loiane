@@ -5,11 +5,11 @@
   </div>
   <div class="form-group">
     <label for="nome">Nome</label>
-    <input [(ngModel)]="aluno.nome" type="text" class="form-control" id="nome">
+    <input (input)="onInput()" [(ngModel)]="aluno.nome" type="text" class="form-control" id="nome">
   </div>
   <div class="form-group">
     <label for="email">Email address</label>
-    <input [(ngModel)]="aluno.email" type="email" class="form-control" id="email" aria-describedby="emailHelp">
+    <input (input)="onInput()" [(ngModel)]="aluno.email" type="email" class="form-control" id="email" aria-describedby="emailHelp">
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </div>
