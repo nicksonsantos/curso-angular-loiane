@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AlunosService } from '../alunos.service';
+import { Aluno } from '../aluno';
 
 @Component({
   selector: 'app-aluno-detalhes',
@@ -11,7 +12,11 @@ import { AlunosService } from '../alunos.service';
 export class AlunoDetalhesComponent implements OnInit, OnDestroy {
 
   inscricao: Subscription = Subscription.EMPTY;
-  aluno: any;
+  aluno: Aluno = {
+    id: Number.NaN,
+    email: '',
+    nome: ''
+  };
 
   editarContato() {
     this.router.navigate(['/alunos', this.aluno.id, 'editar']);
@@ -25,15 +30,22 @@ export class AlunoDetalhesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.inscricao = this.route.params.subscribe(
-      (params: any) => {
-        let id = params['id'];
+    // this.inscricao = this.route.params.subscribe(
+    //   (params: any) => {
+    //     let id = params['id'];
 
-        this.aluno = this.alunosService.getAluno(id);
+    //     this.aluno = this.alunosService.getAluno(id);
 
-        if (this.aluno === null) {
-          this.aluno = {};
-        }
+    //     if (this.aluno === null) {
+    //       this.aluno = {};
+    //     }
+    //   }
+    // );
+
+    this.inscricao = this.route.data.subscribe(
+      (info) => {
+        console.log(info);
+        this.aluno = info['aluno'];
       }
     );
   }

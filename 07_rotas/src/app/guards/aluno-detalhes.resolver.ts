@@ -13,12 +13,12 @@ import { AlunosService } from '../alunos/alunos.service';
 })
 export class AlunoDetalhesResolver implements Resolve<Aluno> {
 
-  constructor(private alunoService: AlunosService) { }
+  constructor(private alunosService: AlunosService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
 
     let id = route.params['id'];
 
-    return of(this.alunoService.getAluno(id));
+    return of(this.alunosService.getAluno(id));
   }
 }
