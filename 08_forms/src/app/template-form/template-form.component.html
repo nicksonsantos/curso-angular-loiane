@@ -1,0 +1,35 @@
+<form #f="ngForm" (ngSubmit)="onSubmit(f)">
+  <div class="form-group">
+    <label for="nome">Nome</label>
+    <input type="text" class="form-control" id="nome" aria-describedby="nome"
+      name="nome" [(ngModel)]="usuario.nome"
+      [class.is-invalid]="!nome.valid && nome.touched"
+      [class.is-valid]="nome.valid"
+      required #nome="ngModel">
+    <!-- <div>
+      {{ nome.className }}
+    </div> -->
+    <div class="warning invalid-feedback" *ngIf="!nome.valid && nome.touched">
+      Nome é obrigatório.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" class="form-control" id="email" aria-describedby="email" placeholder="name@example.com"
+      name="email" [(ngModel)]="usuario.email"
+      [ngClass]="{
+        'is-invalid': !email.valid && email.touched,
+        'is-valid': email.valid
+      }"
+      required email #email="ngModel">
+    <div class="warning invalid-feedback" *ngIf="!email.valid && email.touched">
+      Email é obrigatório.
+    </div>
+  </div>
+
+  <button class="btn btn-primary" type="submit"
+    [disabled]="!f.valid">Submit</button>
+</form>
+
+{{ f.form | json }}

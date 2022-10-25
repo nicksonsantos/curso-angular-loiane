@@ -44,7 +44,6 @@ export class AlunoDetalhesComponent implements OnInit, OnDestroy {
 
     this.inscricao = this.route.data.subscribe(
       (info) => {
-        console.log(info);
         this.aluno = info['aluno'];
       }
     );
