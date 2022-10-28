@@ -6,3 +6,7 @@
   color: red;
   font-style: oblique;
 } */
+
+.form-label {
+  font-weight: bold;
+}

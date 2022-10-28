@@ -1,0 +1,18 @@
+
+<div class="card" *ngIf="formulario" >
+  <div class="card-header">
+    Detalhes do form:
+
+  </div>
+  <div class="card-body">
+    <pre>
+      Form válido: {{ formulario.valid }}
+    </pre>
+    <pre>
+      Form submetido: {{ formulario.submitted }}
+    </pre>
+    <pre>
+      Valores: <br> {{ formulario.value | json }}
+    </pre>
+  </div>
+</div>
