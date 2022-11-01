@@ -8,7 +8,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 })
 export class DataFormComponent implements OnInit {
 
-  formulario: FormGroup = new FormGroup(null);
+  formulario: FormGroup = new FormGroup('');
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -22,6 +22,10 @@ export class DataFormComponent implements OnInit {
       nome: [null],
       email: [null]
     });
+  }
+
+  onSubmit() {
+    console.log(this.formulario.value);
   }
 
 }

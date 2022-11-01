@@ -1,1 +1,22 @@
-<p>data-form works!</p>
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+  <div class="row-12">
+    <label for="nome" class="form-label">Nome</label>
+    <input type="text" class="form-control" id="nome" aria-describedby="nome" formControlName="nome">
+    <!-- <div>
+      {{ nome.className }}
+    </div> -->
+  </div>
+
+  <div class="row-12">
+    <label for="email" class="form-label">Email</label>
+    <input type="email" class="form-control" id="email" aria-describedby="email" placeholder="name@example.com"
+      formControlName="email">
+  </div>
+
+  <br>
+  <div class="">
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </div>
+  <br>
+  <app-form-debug [formulario]="formulario"></app-form-debug>
+</form>
