@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DropdownService } from '../shared/services/dropdown.service';
 import { DataFormService } from './data-form.service';
 
 @Component({
@@ -15,7 +16,8 @@ export class DataFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private formsService: DataFormService) { }
+    private formsService: DataFormService,
+    private dropdownService: DropdownService) { }
 
   ngOnInit(): void {
     // this.formulario = new FormGroup({
