@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { EstadoBr } from '../shared/models/estado-br';
+import { ConsultaCepService } from '../shared/services/consulta-cep.service';
 import { DropdownService } from '../shared/services/dropdown.service';
-import { DataFormService } from './data-form.service';
 
 @Component({
   selector: 'app-data-form',
@@ -13,12 +14,17 @@ import { DataFormService } from './data-form.service';
 export class DataFormComponent implements OnInit {
 
   formulario: FormGroup = new FormGroup('');
-  estados: EstadoBr[] = [];
+  // estados: EstadoBr[] = [];
+  estados: Observable<EstadoBr[]> = new Observable<EstadoBr[]>();
+  cargos: any[] = [];
+  tecnologias: any[] = [];
+  newsletterOp: any[] = [];
+  frameworks = ['Angular', 'React', 'Vue', 'Sencha'];
 
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private formsService: DataFormService,
+    private cepService: ConsultaCepService,
     private dropdownService: DropdownService) { }
 
   ngOnInit(): void {
@@ -43,11 +49,33 @@ export class DataFormComponent implements OnInit {
         bairro: [null, [Validators.required]],
         cidade: [null, [Validators.required]],
         estado: [null, [Validators.required]],
-      })
+      }),
+
+      cargo: [null],
+      tecnologias: [null],
+      newsletter: ['s'],
+      termos: [null, Validators.requiredTrue],
+      frameworks: this.buildFrameworks()
 
     });
 
-    this.dropdownService.getEstadosBr().subscribe((dados) => this.estados = dados);
+    // this.dropdownService.getEstadosBr().subscribe((dados) => this.estados = dados);
+
+    this.estados = this.dropdownService.getEstadosBr();
+
+    this.cargos = this.dropdownService.getCargos();
+
+    this.tecnologias = this.dropdownService.getTecnologias();
+
+    this.newsletterOp = this.dropdownService.getNewsletter();
+  }
+
+  buildFrameworks() {
+
+    const values = this.frameworks.map(v => new FormControl(false));
+
+    return this.formBuilder.array(values);
+
   }
 
   onSubmit() {
@@ -108,8 +136,54 @@ export class DataFormComponent implements OnInit {
     }
   }
 
-  pesquisaCEP() {
-    this.formsService.consultaCEP(this.formulario);
+  consultaCEP() {
+    const cep = this.formulario.get('endereco.cep')?.value;
+
+    if (cep != null && cep !== '') {
+      this.cepService.consultaCEP(cep)
+      .subscribe(dados => this.populaDadosForm(dados));
+    }
+  }
+
+  populaDadosForm(dados: any) {
+
+    this.formulario.patchValue({
+      endereco: {
+        cep: dados.cep,
+        complemento: dados.complemento,
+        rua: dados.logradouro,
+        bairro: dados.bairro,
+        cidade: dados.localidade,
+        estado: dados.uf,
+      }
+    });
+  }
+
+  limpaFormularioCep(formulario: any) {
+    formulario.patchValue({
+      endereco: {
+        cep: '',
+        numero: '',
+        complemento: '',
+        rua: '',
+        bairro: '',
+        cidade: '',
+        estado: '',
+      }
+    });
+  }
+
+  setarCargo() {
+    const cargo = { nome: 'Dev', nivel: 'Pleno', desc: 'Dev Pl'};
+    this.formulario.get('cargo')?.setValue(cargo);
+  }
+
+  compararCargos(obj1: any, obj2: any) {
+    return obj1 && obj2 ? (obj1.nome === obj2.nome && obj1.nivel === obj2.nivel) : obj1 === obj2;
+  }
+
+  setarTecnologias() {
+    this.formulario.get('tecnologias')?.setValue(['java', 'javascript', 'php']);
   }
 
 

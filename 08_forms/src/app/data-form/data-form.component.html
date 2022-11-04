@@ -29,7 +29,7 @@
         <div class="col-2">
           <label for="cep" class="form-label">CEP</label>
           <input class="form-control" type="text" formControlName="cep" id="cep" [ngClass]="aplicaCssErro('endereco.cep')" required
-            (blur)="pesquisaCEP()">
+            (blur)="consultaCEP()">
           <app-campo-control-erro [mostrarErro]="verificaValidTouched('endereco.cep')" mensagemErro="Cep é obrigatório">
           </app-campo-control-erro>
         </div>
@@ -86,7 +86,7 @@
         <label for="estado" class="form-label">Estado</label>
         <select class="form-select" formControlName="estado" id="estado" [ngClass]="aplicaCssErro('endereco.estado')" required>
           <option selected></option>
-          <option *ngFor="let estado of estados" [value]="estado.id">{{ estado.sigla }}</option>
+          <option *ngFor="let estado of estados | async" [value]="estado.sigla">{{ estado.nome }}</option>
         </select>
         <app-campo-control-erro [mostrarErro]="verificaValidTouched('endereco.estado')" mensagemErro="Estado é obrigatório">
         </app-campo-control-erro>
@@ -95,9 +95,68 @@
   </div>
 
   <br>
+  <p class="text-muted">Outros</p>
+  <hr>
+
+  <div class="row">
+    <div class="col-2">
+      <label for="tecnologias" class="form-label">Tecnologias</label>
+      <select multiple class="form-select" formControlName="tecnologias" id="tecnologias" [ngClass]="aplicaCssErro('tecnologias')" required>
+        <option *ngFor="let tecnologia of tecnologias" [value]="tecnologia">{{ tecnologia.desc }}</option>
+      </select>
+    </div>
+
+    <div class="col-2">
+      <label for="cargo" class="form-label">Cargo</label>
+      <select class="form-select" formControlName="cargo" id="cargo" [ngClass]="aplicaCssErro('cargo')" required [compareWith]="compararCargos">
+        <option *ngFor="let cargo of cargos" [ngValue]="cargo">{{ cargo.desc }}</option>
+      </select>
+    </div>
+
+    <div class="col" [ngClass]="aplicaCssErro('newsletter')">
+      <label for="newsletter" class="control-label">Newsletter</label>
+      <div id="newsletter">
+        <div class="form-check form-check-inline" *ngFor="let opcao of newsletterOp">
+          <input class="form-check-input" type="radio" formControlName="newsletter" [value]="opcao.valor">
+          <label class="form-check-label" for="newsletter1" >{{ opcao.desc }}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" formControlName="termos" required [ngClass]="aplicaCssErro('termos')">
+        <label class="form-check-label" for="flexCheckDefault">
+          Aceito os termos
+        </label>
+      </div>
+      <app-campo-control-erro [mostrarErro]="verificaValidTouched('termos')" mensagemErro="É necessário aceitar os termos">
+      </app-campo-control-erro>
+    </div>
+  </div>
+
+  <div class="col-3">
+    <label class="form-check-label" for="frameworks">Frameworks</label>
+    <div id="frameworks">
+      <div class="form-check form-check-inline" formArrayName="frameworks" *ngFor="let item of formulario.get('frameworks').controls; let i = index">
+        <input class="form-check-input" type="checkbox" value="" formControlName="frameworks" required [ngClass]="aplicaCssErro('frameworks')">
+        <label class="form-check-label" for="frameworks">
+          Angular
+        </label>
+      </div>
+    </div>
+    <app-campo-control-erro [mostrarErro]="verificaValidTouched('frameworks')" mensagemErro="É necessário selecionar um framework">
+    </app-campo-control-erro>
+  </div>
+
+  <br>
   <div class="">
     <button class="btn btn-primary" type="submit">Submit</button>
-    <button class="btn" (click)="resetar()">Cancelar</button>
+    <button class="btn btn-default" (click)="resetar()">Cancelar</button>
+    <button class="btn btn-info" (click)="setarCargo()">Cargo</button>
+    <button class="btn btn-info" (click)="setarTecnologias()">Tecnologias</button>
   </div>
   <br>
   <app-form-debug [formulario]="formulario"></app-form-debug>
