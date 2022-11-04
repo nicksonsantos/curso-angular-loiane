@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { EstadoBr } from '../shared/models/estado-br';
 import { DropdownService } from '../shared/services/dropdown.service';
 import { DataFormService } from './data-form.service';
 
@@ -12,6 +13,7 @@ import { DataFormService } from './data-form.service';
 export class DataFormComponent implements OnInit {
 
   formulario: FormGroup = new FormGroup('');
+  estados: EstadoBr[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -40,10 +42,12 @@ export class DataFormComponent implements OnInit {
         complemento: [null],
         bairro: [null, [Validators.required]],
         cidade: [null, [Validators.required]],
-        estado: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
+        estado: [null, [Validators.required]],
       })
 
     });
+
+    this.dropdownService.getEstadosBr().subscribe((dados) => this.estados = dados);
   }
 
   onSubmit() {
@@ -107,5 +111,6 @@ export class DataFormComponent implements OnInit {
   pesquisaCEP() {
     this.formsService.consultaCEP(this.formulario);
   }
+
 
 }
