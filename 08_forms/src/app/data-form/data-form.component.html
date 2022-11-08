@@ -140,10 +140,10 @@
   <div class="col-3">
     <label class="form-check-label" for="frameworks">Frameworks</label>
     <div id="frameworks">
-      <div class="form-check form-check-inline" formArrayName="frameworks" *ngFor="let item of formulario.get('frameworks').controls; let i = index">
-        <input class="form-check-input" type="checkbox" value="" formControlName="frameworks" required [ngClass]="aplicaCssErro('frameworks')">
+      <div class="form-check form-check-inline" formArrayName="frameworks" *ngFor="let item of formulario.get('frameworks')?.value; let i = index;">
+        <input class="form-check-input" type="checkbox" value="" required [ngClass]="aplicaCssErro('frameworks')" [formControlName="i"]>
         <label class="form-check-label" for="frameworks">
-          Angular
+          {{ item }}
         </label>
       </div>
     </div>

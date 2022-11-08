@@ -71,11 +71,8 @@ export class DataFormComponent implements OnInit {
   }
 
   buildFrameworks() {
-
     const values = this.frameworks.map(v => new FormControl(false));
-
     return this.formBuilder.array(values);
-
   }
 
   onSubmit() {
