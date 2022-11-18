@@ -20,6 +20,14 @@
     </app-campo-control-erro>
   </div>
 
+  <div class="row-12">
+    <label for="confirmarEmail" class="form-label">Confirmar Email</label>
+    <input type="email" class="form-control" id="confirmarEmail" aria-describedby="confirmarEmail" placeholder="name@example.com"
+      formControlName="email" [ngClass]="aplicaCssErro('confirmarEmail')">
+    <app-campo-control-erro [mostrarErro]="formulario.get('confirmarEmail')?.hasError('equalsTo')" mensagemErro="E-mails não são iguais">
+    </app-campo-control-erro>
+  </div>
+
   <br>
   <p class="text-muted">Endereço</p>
   <hr>
@@ -30,7 +38,9 @@
           <label for="cep" class="form-label">CEP</label>
           <input class="form-control" type="text" formControlName="cep" id="cep" [ngClass]="aplicaCssErro('endereco.cep')" required
             (blur)="consultaCEP()">
-          <app-campo-control-erro [mostrarErro]="verificaValidTouched('endereco.cep')" mensagemErro="Cep é obrigatório">
+          <app-campo-control-erro [mostrarErro]="verificaRequired('endereco.cep')" mensagemErro="Cep é obrigatório">
+          </app-campo-control-erro>
+          <app-campo-control-erro [mostrarErro]="formulario.get('endereco.cep')?.hasError('cepInvalido')" mensagemErro="Cep inválido">
           </app-campo-control-erro>
         </div>
 
@@ -137,7 +147,9 @@
     </div>
   </div>
 
-  <div class="col-3">
+  <br>
+
+  <div class="col">
     <label class="form-check-label" for="frameworks">Frameworks</label>
     <div id="frameworks">
       <div class="form-check form-check-inline" formArrayName="frameworks" *ngFor="let item of getFrameworksControls(); let i = index;">
@@ -146,9 +158,9 @@
           {{ frameworks[i] }}
         </label>
       </div>
+      <app-campo-control-erro [mostrarErro]="!formulario.get('frameworks')?.valid" mensagemErro="Selecione uma opção">
+    </app-campo-control-erro>
     </div>
-    <!-- <app-campo-control-erro [mostrarErro]="verificaValidTouched('frameworks')" mensagemErro="É necessário selecionar um framework">
-    </app-campo-control-erro> -->
   </div>
 
   <br>

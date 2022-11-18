@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { FormValidations } from '../shared/form-validations';
 import { EstadoBr } from '../shared/models/estado-br';
 import { ConsultaCepService } from '../shared/services/consulta-cep.service';
 import { DropdownService } from '../shared/services/dropdown.service';
@@ -40,9 +41,10 @@ export class DataFormComponent implements OnInit {
     this.formulario = this.formBuilder.group({
       nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
       email: [null, [Validators.required, Validators.email]],
+      confirmarEmail: [null, [FormValidations.equalsTo('email')]],
 
       endereco: this.formBuilder.group({
-        cep: [null, [Validators.required]],
+        cep: [null, [Validators.required, FormValidations.cepValidator]],
         rua: [null, [Validators.required]],
         numero: [null, [Validators.required]],
         complemento: [null],
@@ -72,8 +74,10 @@ export class DataFormComponent implements OnInit {
 
   buildFrameworks() {
     const values = this.frameworks.map(v => new FormControl(false));
-    return this.formBuilder.array(values);
+    return this.formBuilder.array(values, FormValidations.requiredMinCheckbox(1));
   }
+
+
 
   onSubmit() {
 
@@ -86,6 +90,8 @@ export class DataFormComponent implements OnInit {
       .map((v: any, i: any) => v ? this.frameworks[i] : null)
       .filter((v: any) => v !== null)
     });
+
+    console.log(valueSubmit);
 
     if (this.formulario.valid) {
       this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
@@ -133,6 +139,13 @@ export class DataFormComponent implements OnInit {
     }
 
     return false;
+  }
+
+  verificaRequired(campo: string) {
+    return (
+      this.formulario.get(campo)?.hasError('required') &&
+      (this.formulario.get(campo)?.touched || this.formulario.get(campo)?.dirty)
+    );
   }
 
   verificaEmailInvalido() {
