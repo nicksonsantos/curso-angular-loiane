@@ -1,14 +1,18 @@
 <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
-  <div class="row-12">
+
+  <app-input-field class="row-12" formControlName="nome"
+    id="nome" label="Nome" type="text" placeholder="Nome"
+    [classeCss]="aplicaCssErro('nome')"
+    [control]="getFieldFormGroup('nome')">
+  </app-input-field>
+
+  <!-- <div class="row-12">
     <label for="nome" class="form-label">Nome</label>
     <input type="text" class="form-control" id="nome" aria-describedby="nome" formControlName="nome"
       [ngClass]="aplicaCssErro('nome')">
-    <!-- <div>
-      {{ nome.className }}
-    </div> -->
     <app-error-msg [control]="getFieldFormGroup('nome')" label="Nome">
     </app-error-msg>
-  </div>
+  </div> -->
 
   <div class="row-12">
     <label for="email" class="form-label">Email</label>
