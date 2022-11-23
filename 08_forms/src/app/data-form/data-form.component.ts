@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { distinct, distinctUntilChanged, empty, map, Observable, switchMap, tap } from 'rxjs';
+import { BaseFormComponent } from '../shared/base-form/base-form.component';
 import { FormValidations } from '../shared/form-validations';
 import { EstadoBr } from '../shared/models/estado-br';
 import { ConsultaCepService } from '../shared/services/consulta-cep.service';
@@ -13,9 +14,9 @@ import { VerificaEmailService } from './services/verifica-email.service';
   templateUrl: './data-form.component.html',
   styleUrls: ['./data-form.component.css']
 })
-export class DataFormComponent implements OnInit {
+export class DataFormComponent extends BaseFormComponent implements OnInit {
 
-  formulario: FormGroup = new FormGroup('');
+  // formulario: FormGroup = new FormGroup('');
   // estados: EstadoBr[] = [];
   estados: Observable<EstadoBr[]> = new Observable<EstadoBr[]>();
   cargos: any[] = [];
@@ -28,9 +29,11 @@ export class DataFormComponent implements OnInit {
     private http: HttpClient,
     private cepService: ConsultaCepService,
     private dropdownService: DropdownService,
-    private verificaEmailService: VerificaEmailService) { }
+    private verificaEmailService: VerificaEmailService) {
+      super();
+     }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
 
     // this.dropdownService.getEstadosBr().subscribe((dados) => this.estados = dados);
 
@@ -96,11 +99,7 @@ export class DataFormComponent implements OnInit {
     return this.formBuilder.array(values, FormValidations.requiredMinCheckbox(1));
   }
 
-
-
-  onSubmit() {
-
-    console.log(this.formulario);
+  submit(): void {
 
     let valueSubmit = Object.assign({}, this.formulario.value);
 
@@ -112,67 +111,12 @@ export class DataFormComponent implements OnInit {
 
     console.log(valueSubmit);
 
-    if (this.formulario.valid) {
-      this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
+    this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
       .subscribe(dados => {
         console.log(dados);
         // reseta o form
         this.resetar();
       }, (error: any) => alert('erro'));
-    } else {
-      console.log('formulario invalido');
-      this.verificaValidacoesForm(this.formulario);
-    }
-
-
-  }
-
-  verificaValidacoesForm(formGroup: FormGroup) {
-    Object.keys(formGroup.controls).forEach((campo) => {
-      const controle = formGroup.get(campo);
-      if (controle instanceof FormGroup) {
-        this.verificaValidacoesForm(controle)
-      }
-      if (controle?.invalid) {
-        controle.markAsDirty();
-      }
-    })
-  }
-
-  resetar() {
-    this.formulario.reset();
-  }
-
-  aplicaCssErro(campo: string) {
-    return {
-      'is-invalid': this.verificaValidTouched(campo),
-      'is-valid': this.formulario.get(campo)?.valid && this.formulario.get(campo)?.touched,
-    };
-  }
-
-  verificaValidTouched(campo: string): boolean {
-    let validacao = this.formulario.get(campo)?.invalid && (this.formulario.get(campo)?.touched || this.formulario.get(campo)?.dirty);
-
-    if (typeof(validacao) == 'boolean') {
-      return validacao;
-    }
-
-    return false;
-  }
-
-  verificaRequired(campo: string) {
-    return (
-      this.formulario.get(campo)?.hasError('required') &&
-      (this.formulario.get(campo)?.touched || this.formulario.get(campo)?.dirty)
-    );
-  }
-
-  verificaEmailInvalido() {
-    let campoEmail = this.formulario?.get('email');
-
-    if (campoEmail?.errors) {
-      return campoEmail.errors['email'] && campoEmail.touched;
-    }
   }
 
   consultaCEP() {
@@ -233,10 +177,6 @@ export class DataFormComponent implements OnInit {
   validarEmail(formControl: FormControl) {
     return this.verificaEmailService.verificarEmail(formControl.value)
       .pipe(map((emailExiste: any) => emailExiste ? {emailInvalido: true} : null));
-  }
-
-  getFieldFormGroup(formGroupName: string): FormGroup {
-    return this.formulario.get(formGroupName) as FormGroup;
   }
 
 }
