@@ -4,6 +4,7 @@ import { CampoControlErroComponent } from './campo-control-erro/campo-control-er
 import { FormDebugComponent } from './form-debug/form-debug.component';
 import { DropdownService } from './services/dropdown.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ErrorMsgComponent } from './error-msg/error-msg.component';
 
 
 
@@ -11,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
   declarations: [
     CampoControlErroComponent,
     FormDebugComponent,
+    ErrorMsgComponent,
   ],
   imports: [
     CommonModule,
@@ -19,6 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
   exports: [
     CampoControlErroComponent,
     FormDebugComponent,
+    ErrorMsgComponent
   ],
   providers: [
     DropdownService

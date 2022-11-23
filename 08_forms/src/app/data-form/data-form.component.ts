@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { map, Observable, tap } from 'rxjs';
+import { distinct, distinctUntilChanged, empty, map, Observable, switchMap, tap } from 'rxjs';
 import { FormValidations } from '../shared/form-validations';
 import { EstadoBr } from '../shared/models/estado-br';
 import { ConsultaCepService } from '../shared/services/consulta-cep.service';
@@ -31,6 +31,19 @@ export class DataFormComponent implements OnInit {
     private verificaEmailService: VerificaEmailService) { }
 
   ngOnInit(): void {
+
+    // this.dropdownService.getEstadosBr().subscribe((dados) => this.estados = dados);
+
+    this.estados = this.dropdownService.getEstadosBr();
+
+    this.cargos = this.dropdownService.getCargos();
+
+    this.tecnologias = this.dropdownService.getTecnologias();
+
+    this.newsletterOp = this.dropdownService.getNewsletter();
+
+    // this.verificaEmailService.verificarEmail('email@email.com').subscribe();
+
     // this.formulario = new FormGroup({
     //   nome: new FormControl(null),
     //   email: new FormControl(null),
@@ -66,17 +79,16 @@ export class DataFormComponent implements OnInit {
 
     });
 
-    // this.dropdownService.getEstadosBr().subscribe((dados) => this.estados = dados);
-
-    this.estados = this.dropdownService.getEstadosBr();
-
-    this.cargos = this.dropdownService.getCargos();
-
-    this.tecnologias = this.dropdownService.getTecnologias();
-
-    this.newsletterOp = this.dropdownService.getNewsletter();
-
-    // this.verificaEmailService.verificarEmail('email@email.com').subscribe();
+    this.formulario.get('endereco.cep')?.statusChanges
+      .pipe(
+        distinctUntilChanged(),
+        // tap(value => console.log('status CEP:', value)),
+        switchMap(status => status === 'VALID' ?
+          this.cepService.consultaCEP(this.formulario.get('endereco.cep')?.value)
+          : empty()
+        )
+      )
+      .subscribe(dados => dados ? this.populaDadosForm(dados) : {});
   }
 
   buildFrameworks() {
@@ -221,6 +233,10 @@ export class DataFormComponent implements OnInit {
   validarEmail(formControl: FormControl) {
     return this.verificaEmailService.verificarEmail(formControl.value)
       .pipe(map((emailExiste: any) => emailExiste ? {emailInvalido: true} : null));
+  }
+
+  getFieldFormGroup(formGroupName: string): FormGroup {
+    return this.formulario.get(formGroupName) as FormGroup;
   }
 
 }
