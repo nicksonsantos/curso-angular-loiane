@@ -19,7 +19,8 @@ export class FormValidations {
     const cep = control.value;
     if (cep && cep !== '') {
       const validacep = /^[0-9]{8}$/;
-      return validacep.test(cep) ? null : { cepInvalido : true };
+      const validaCepComTraco = /^[0-9]{5}-[0-9]{3}$/;
+      return (validacep.test(cep) || validaCepComTraco.test(cep)) ? null : { cepInvalido : true };
     }
     return null;
   }
