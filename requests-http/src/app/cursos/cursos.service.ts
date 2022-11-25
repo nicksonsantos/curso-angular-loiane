@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { Injectable} from '@angular/core';
+import { catchError, delay, Observable, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Curso } from '../shared/models/curso';
 
 @Injectable({
@@ -8,26 +9,21 @@ import { Curso } from '../shared/models/curso';
 })
 export class CursosService {
 
-  cursosUrl =
+  private readonly API = `${environment.API}cursos/`;
 
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json',
-      Authorization: 'my-auth-token'
-    })
-  };
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   getCursos() {
-    return this.http.get<Curso[]>('http://localhost:3000/cursos/')
+    return this.http.get<Curso[]>(this.API)
       .pipe(
+        delay(2000),
         catchError(this.handleError)
       );
   }
 
   getCurso(idCurso: number) {
-    return this.http.get<Curso>(`http://localhost:3000/cursos/${idCurso}`)
+    return this.http.get<Curso>(`${this.API}${idCurso}`)
       .pipe(
         catchError(this.handleError)
       );
@@ -35,19 +31,19 @@ export class CursosService {
 
   addCurso(curso: Curso): Observable<Curso> {
 
-    return this.http.post<Curso>('http://localhost:3000/cursos/', curso, this.httpOptions)
+    return this.http.post<Curso>(this.API, curso)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   updateCurso(curso: Curso): Observable<Curso> {
-    return this.http.put<Curso>(this.heroesUrl);
+    return this.http.put<Curso>(this.API, curso);
   }
 
   deleteCurso(idCurso: number) {
-    const url = `http://localhost:3000/cursos/${idCurso}`;
-    return this.http.delete(url, this.httpOptions)
+    const url = `${this.API}${idCurso}`;
+    return this.http.delete(url)
       .pipe(
         catchError(this.handleError)
       )
