@@ -4,7 +4,8 @@
       <h4>Cursos</h4>
     </div>
     <div class="float-end">
-      <button type="button" class="btn btn-primary" [routerLink]="['novo']">Novo</button>
+      <button type="button" class="btn btn-primary m-1" [routerLink]="['novo']">Novo</button>
+      <button type="button" class="btn btn-secondary m-1" (click)="onRefresh()">Atualizar</button>
     </div>
   </div>
   <div class="card-body">
@@ -30,10 +31,15 @@
       </tbody>
     </table>
     <ng-template #loading>
-      <div class="d-flex align-items-center">
-        <strong>Carregando...</strong>
-        <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+      <div *ngIf="error$ | async; else loadingNoError">
+        Erro ao carregar cursos. Tente novamente mais tarde.
       </div>
+      <ng-template #loadingNoError>
+        <div class="d-flex align-items-center">
+          Carregando...
+          <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+        </div>
+      </ng-template>
     </ng-template>
   </div>
 </div>

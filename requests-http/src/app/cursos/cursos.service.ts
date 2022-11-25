@@ -17,8 +17,7 @@ export class CursosService {
   getCursos() {
     return this.http.get<Curso[]>(this.API)
       .pipe(
-        delay(2000),
-        catchError(this.handleError)
+        delay(2000)
       );
   }
 
@@ -65,3 +64,7 @@ export class CursosService {
 
 
 }
+function next(arg0: boolean): (err: any, caught: Observable<Curso[]>) => import("rxjs").ObservableInput<any> {
+  throw new Error('Function not implemented.');
+}
+
