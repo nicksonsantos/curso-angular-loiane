@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormBuilder, FormControl, ValidationErrors } fro
 import { CursosService } from '../cursos.service';
 import { AlertModalService } from '../../shared/alert-modal.service';
 import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -15,12 +16,37 @@ export class CursosFormComponent implements OnInit {
   form: FormGroup = new FormGroup('');
   submitted = false;
 
-  constructor(private formBuilder: FormBuilder, private cursosService: CursosService, private modal: AlertModalService, private location: Location) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private cursosService: CursosService,
+    private modal: AlertModalService,
+    private location: Location,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
+
+    this.route.params.subscribe(
+      (params: any) => {
+        const id = params['id'];
+        const curso$ = this.cursosService.getCurso(id);
+        curso$.subscribe(curso => {
+          this.updateForm(curso);
+        });
+      }
+    );
+
     this.form = this.formBuilder.group({
+      id: [null],
       nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]]
     });
+  }
+
+  updateForm(curso: any) {
+    this.form.patchValue({
+      id: curso.id,
+      nome: curso.nome
+    })
   }
 
   onSubmit() {
