@@ -1,9 +1,25 @@
-<form [formGroup]="formulario" (ngSubmit)="onSubmit()" style="margin: 1rem">
+<form class="needs-validation" novalidate [formGroup]="form" (ngSubmit)="onSubmit()" style="padding-top: 1rem">
 
-  <div class="">
+  <div class="col-md-4">
     <label for="nome" class="form-label">Nome do Curso</label>
-    <input type="text" class="form-control" id="nome" placeholder="ex: Python" formControlName="nome" >
+    <input type="text" class="form-control" id="nome" placeholder="ex: Python" formControlName="nome"
+      [ngClass]="{ 'is-invalid': submitted && hasError('nome') }">
+  </div>
+  <div *ngIf="hasError('nome')" class="invalid-feedback">
+    <div *ngIf="hasError('nome')?.['required']">
+      Por favor, insira o nome do curso.
+    </div>
+    <div *ngIf="hasError('nome')?.['minlength']">
+      Mínimo 3 caracteres
+    </div>
+    <div *ngIf="hasError('nome')?.['maxlength']">
+      Máximo 10 caracteres
+    </div>
   </div>
 
-  <button class="btn btn-primary mt-3" type="submit" [disabled]="formulario.invalid">Cadastrar</button>
+  <div style="margin-top: 1rem;">
+    <button class="btn btn-primary" type="submit" >Cadastrar</button>
+    <button class="btn btn-default" type="button" (click)="onCancel()">Cancelar</button>
+  </div>
+
 </form>

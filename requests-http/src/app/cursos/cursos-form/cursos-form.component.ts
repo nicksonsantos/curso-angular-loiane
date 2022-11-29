@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { CursosService } from '../../../../../05_servicos/src/app/cursos/cursos.service';
+import { FormGroup, Validators, FormBuilder, FormControl, ValidationErrors } from '@angular/forms';
+import { CursosService } from '../cursos.service';
+import { AlertModalService } from '../../shared/alert-modal.service';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-cursos-form',
@@ -9,24 +12,42 @@ import { CursosService } from '../../../../../05_servicos/src/app/cursos/cursos.
 })
 export class CursosFormComponent implements OnInit {
 
-  formulario: FormGroup = new FormGroup('');
+  form: FormGroup = new FormGroup('');
+  submitted = false;
 
-  constructor(private formBuilder: FormBuilder, private cursosService: CursosService) { }
+  constructor(private formBuilder: FormBuilder, private cursosService: CursosService, private modal: AlertModalService, private location: Location) { }
 
   ngOnInit(): void {
-    this.formulario = this.formBuilder.group({
-      nome: ['', [Validators.required]]
+    this.form = this.formBuilder.group({
+      nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]]
     });
   }
 
   onSubmit() {
-    console.log(this.formulario.controls);
-    if (this.formulario.valid) {
-      // let nomeCurso = this.formulario.controls;
-      // this.cursosService.addCurso()
+    this.submitted = true;
+    console.log(this.form.value);
+    if (this.form.valid) {
+      this.cursosService.addCurso(this.form.value).subscribe(
+        success => {
+          this.modal.showAlertSuccess('Curso criado com sucesso!');
+          this.location.back();
+        },
+        error => this.modal.showAlertDanger('Erro ao criar curso, tente novamente.'),
+        () => console.log('request completo')
+      );
     } else {
-      console.log('Formulário inválido.')
+      console.log('Formulário inválido.');
     }
+  }
+
+  onCancel() {
+    this.submitted = false;
+    this.form.reset;
+    console.log('cancel')
+  }
+
+  hasError(field: string) {
+    return this.form.get(field)?.errors;
   }
 
 }
