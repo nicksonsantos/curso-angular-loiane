@@ -1,0 +1,9 @@
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()" style="margin: 1rem">
+
+  <div class="">
+    <label for="nome" class="form-label">Nome do Curso</label>
+    <input type="text" class="form-control" id="nome" placeholder="ex: Python" formControlName="nome" >
+  </div>
+
+  <button class="btn btn-primary mt-3" type="submit" [disabled]="formulario.invalid">Cadastrar</button>
+</form>
