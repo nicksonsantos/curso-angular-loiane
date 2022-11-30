@@ -4,6 +4,7 @@ import { CursosService } from '../cursos.service';
 import { AlertModalService } from '../../shared/alert-modal.service';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { map, switchMap } from 'rxjs';
 
 
 @Component({
@@ -26,15 +27,28 @@ export class CursosFormComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.route.params.subscribe(
-      (params: any) => {
-        const id = params['id'];
-        const curso$ = this.cursosService.getCurso(id);
-        curso$.subscribe(curso => {
-          this.updateForm(curso);
-        });
-      }
-    );
+    // this.route.params.subscribe(
+    //   (params: any) => {
+    //     const id = params['id'];
+    //     const curso$ = this.cursosService.getCurso(id);
+    //     curso$.subscribe(curso => {
+    //       this.updateForm(curso);
+    //     });
+    //   }
+    // );
+
+    this.route.params
+    .pipe(
+      map((params: any) => params['id']),
+      switchMap(id => this.cursosService.getCurso(id))
+      // switchMap9cursos => obterAulas)
+    )
+    .subscribe(curso => this.updateForm(curso));
+    // não é necessário fazer unsubscribe automaticamente
+
+    // concatMap -> ordem da requisição importa
+    // mergeMap -> ordem não importa
+    // exhaustMap -> casos de login
 
     this.form = this.formBuilder.group({
       id: [null],
