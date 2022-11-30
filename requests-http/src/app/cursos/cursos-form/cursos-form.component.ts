@@ -37,22 +37,25 @@ export class CursosFormComponent implements OnInit {
     //   }
     // );
 
-    this.route.params
-    .pipe(
-      map((params: any) => params['id']),
-      switchMap(id => this.cursosService.getCurso(id))
-      // switchMap9cursos => obterAulas)
-    )
-    .subscribe(curso => this.updateForm(curso));
+    // this.route.params
+    //   .pipe(
+    //     map((params: any) => params['id']),
+    //     switchMap(id => this.cursosService.getCurso(id))
+    //     // switchMap9cursos => obterAulas)
+    //   )
+    //   .subscribe(curso => this.updateForm(curso));
     // não é necessário fazer unsubscribe automaticamente
 
     // concatMap -> ordem da requisição importa
     // mergeMap -> ordem não importa
     // exhaustMap -> casos de login
 
+    // utilizando o resolver toda a lógica acima fica no curso-resolver.guard e só é necessário o código abaixo
+    const curso = this.route.snapshot.data['curso'];
+
     this.form = this.formBuilder.group({
-      id: [null],
-      nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]]
+      id: [curso.id],
+      nome: [curso.nome, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]]
     });
   }
 
