@@ -59,25 +59,34 @@ export class CursosFormComponent implements OnInit {
     });
   }
 
-  updateForm(curso: any) {
-    this.form.patchValue({
-      id: curso.id,
-      nome: curso.nome
-    })
-  }
+  // updateForm(curso: any) {
+  //   this.form.patchValue({
+  //     id: curso.id,
+  //     nome: curso.nome
+  //   })
+  // }
 
   onSubmit() {
     this.submitted = true;
     console.log(this.form.value);
+
     if (this.form.valid) {
-      this.cursosService.addCurso(this.form.value).subscribe(
-        success => {
-          this.modal.showAlertSuccess('Curso criado com sucesso!');
+
+      let mensagemSuccess = 'Curso criado com sucesso!';
+      let mensagemError = 'Erro ao criar curso, tente novamente!'
+      if (this.form.value.id) {
+        mensagemSuccess = 'Curso atualizado com sucesso!';
+        mensagemError = 'Erro ao atualizar curso, tente novamente!';
+      }
+
+      this.cursosService.save(this.form.value).subscribe({
+        next: (v) => {
+          this.modal.showAlertSuccess(mensagemSuccess);
           this.location.back();
         },
-        error => this.modal.showAlertDanger('Erro ao criar curso, tente novamente.'),
-        () => console.log('request completo')
-      );
+        error: (e) => this.modal.showAlertDanger(mensagemError)
+      });
+
     } else {
       console.log('Formulário inválido.');
     }

@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { catchError, delay, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Curso } from '../shared/models/curso';
@@ -17,7 +17,7 @@ export class CursosService {
   getCursos() {
     return this.http.get<Curso[]>(this.API)
       .pipe(
-        delay(2000)
+        delay(500)
       );
   }
 
@@ -37,7 +37,7 @@ export class CursosService {
   }
 
   updateCurso(curso: Curso): Observable<Curso> {
-    return this.http.put<Curso>(this.API, curso);
+    return this.http.put<Curso>(`${this.API}${curso.id}`, curso);
   }
 
   deleteCurso(idCurso: number) {
@@ -62,9 +62,13 @@ export class CursosService {
     return throwError(() => new Error('Something bad happened; please try again later.'));
   }
 
+  save(curso: Curso) {
+    if (curso.id) {
+      return this.updateCurso(curso);
+    }
 
-}
-function next(arg0: boolean): (err: any, caught: Observable<Curso[]>) => import("rxjs").ObservableInput<any> {
-  throw new Error('Function not implemented.');
+    return this.addCurso(curso);
+  }
+
 }
 
