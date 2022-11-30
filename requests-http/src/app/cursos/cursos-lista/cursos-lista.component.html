@@ -24,7 +24,7 @@
           <td>
             <span class="float-end">
               <button type="button" class="btn btn-outline-warning m-1 btn-sm" [routerLink]="['editar']" (click)="onEdit(curso.id)">Atualizar</button>
-              <button type="button" class="btn btn-outline-danger m-1 btn-sm" [routerLink]="['remover']">Remover</button>
+              <button type="button" class="btn btn-outline-danger m-1 btn-sm" (click)="onDelete(curso)">Remover</button>
             </span>
           </td>
         </tr>
@@ -43,3 +43,11 @@
     </ng-template>
   </div>
 </div>
+
+<ng-template #deleteModal>
+  <div class="modal-body text-center alert alert-danger mb-0">
+    <p>Tem certeza que deseja remover esse curso?</p>
+    <button type="button" class="btn btn-default" (click)="onConfirmDelete()" >Sim</button>
+    <button type="button" class="btn btn-primary" (click)="onDeclineDelete()" >Não</button>
+  </div>
+</ng-template>
