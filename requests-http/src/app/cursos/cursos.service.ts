@@ -14,21 +14,21 @@ export class CursosService {
   constructor(private http: HttpClient) {
   }
 
-  getCursos() {
+  list() {
     return this.http.get<Curso[]>(this.API)
       .pipe(
         delay(500)
       );
   }
 
-  getCurso(idCurso: number) {
-    return this.http.get<Curso>(`${this.API}${idCurso}`)
+  getById(id: number) {
+    return this.http.get<Curso>(`${this.API}${id}`)
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  addCurso(curso: Curso): Observable<Curso> {
+  create(curso: Curso): Observable<Curso> {
 
     return this.http.post<Curso>(this.API, curso)
       .pipe(
@@ -36,12 +36,12 @@ export class CursosService {
       );
   }
 
-  updateCurso(curso: Curso): Observable<Curso> {
+  update(curso: Curso): Observable<Curso> {
     return this.http.put<Curso>(`${this.API}${curso.id}`, curso);
   }
 
-  deleteCurso(idCurso: number) {
-    const url = `${this.API}${idCurso}`;
+  delete(id: number) {
+    const url = `${this.API}${id}`;
     return this.http.delete(url)
       .pipe(
         catchError(this.handleError)
@@ -64,10 +64,10 @@ export class CursosService {
 
   save(curso: Curso) {
     if (curso.id) {
-      return this.updateCurso(curso);
+      return this.update(curso);
     }
 
-    return this.addCurso(curso);
+    return this.create(curso);
   }
 
 }
