@@ -7,9 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UploadFileComponent implements OnInit {
 
+  files: FileList = new FileList;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onChange(event: any) {
+    console.log(event);
+    this.files = event.target.files;
+  }
+
+  onUpload() {
+
   }
 
 }
