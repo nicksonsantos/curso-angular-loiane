@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UploadFileService } from '../upload-file.service';
 import { environment } from '../../../environments/environment';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-upload-file',
@@ -11,6 +12,8 @@ export class UploadFileComponent implements OnInit {
 
   files: FileList | null = {} as FileList;
   temArquivoUpado: boolean = false;
+  activateProgressBar: boolean = false;
+  valueProgressBar: number = 0;
 
   constructor(private service: UploadFileService) { }
 
@@ -21,12 +24,28 @@ export class UploadFileComponent implements OnInit {
     const target = event.target as HTMLInputElement;
     this.files = target.files;
     this.temArquivoUpado = true;
+    this.valueProgressBar = 0;
   }
 
   onUpload() {
     if (this.temArquivoUpado && this.files && this.files!.length > 0) {
-      this.service.upload(this.files, environment.BASE_URL + '/api/upload')
-        .subscribe(response => console.log('Upload Concluido'));
+      this.activateProgressBar = true;
+      this.service.upload(this.files, environment.BASE_URL + '/upload')
+        .subscribe((event: HttpEvent<Object>) => {
+          //HttpEventType
+          // console.log(event);
+          if (event.type === HttpEventType.Response) {
+            // console.log(event);
+            console.log('Upload Concluido');
+          }
+          else if (event.type === HttpEventType.UploadProgress) {
+            const total = event.total;
+            if (total !== undefined) {
+              this.valueProgressBar = Math.round(((event.loaded * 100) / total));
+              // console.log('Progresso', this.valueProgressBar);
+            }
+          }
+        });
     }
   }
 
