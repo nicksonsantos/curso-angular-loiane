@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UploadFileService } from '../upload-file.service';
 import { environment } from '../../../environments/environment';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { filterResponse } from 'src/app/shared/rxjs-operators';
 
 @Component({
   selector: 'app-upload-file',
@@ -31,8 +32,11 @@ export class UploadFileComponent implements OnInit {
     if (this.temArquivoUpado && this.files && this.files!.length > 0) {
       this.activateProgressBar = true;
       this.service.upload(this.files, environment.BASE_URL + '/upload')
+        .pipe(
+          filterResponse(),
+
+        )
         .subscribe((event: HttpEvent<Object>) => {
-          //HttpEventType
           // console.log(event);
           if (event.type === HttpEventType.Response) {
             // console.log(event);
