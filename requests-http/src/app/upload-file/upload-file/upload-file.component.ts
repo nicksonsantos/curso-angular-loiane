@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UploadFileService } from '../upload-file.service';
 import { environment } from '../../../environments/environment';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
-import { filterResponse } from 'src/app/shared/rxjs-operators';
+import { filterResponse, uploadProgress } from 'src/app/shared/rxjs-operators';
 
 @Component({
   selector: 'app-upload-file',
@@ -33,23 +33,27 @@ export class UploadFileComponent implements OnInit {
       this.activateProgressBar = true;
       this.service.upload(this.files, environment.BASE_URL + '/upload')
         .pipe(
-          filterResponse(),
-
+          uploadProgress(progress => {
+            // console.log(progress);
+            this.valueProgressBar = progress;
+          }),
+          filterResponse()
         )
-        .subscribe((event: HttpEvent<Object>) => {
-          // console.log(event);
-          if (event.type === HttpEventType.Response) {
-            // console.log(event);
-            console.log('Upload Concluido');
-          }
-          else if (event.type === HttpEventType.UploadProgress) {
-            const total = event.total;
-            if (total !== undefined) {
-              this.valueProgressBar = Math.round(((event.loaded * 100) / total));
-              // console.log('Progresso', this.valueProgressBar);
-            }
-          }
-        });
+        .subscribe(response => console.log('Upload Concluído'));
+        // .subscribe((event: HttpEvent<Object>) => {
+        //   // console.log(event);
+        //   if (event.type === HttpEventType.Response) {
+        //     // console.log(event);
+        //     console.log('Upload Concluido');
+        //   }
+        //   else if (event.type === HttpEventType.UploadProgress) {
+        //     const total = event.total;
+        //     if (total !== undefined) {
+        //       this.valueProgressBar = Math.round(((event.loaded * 100) / total));
+        //       // console.log('Progresso', this.valueProgressBar);
+        //     }
+        //   }
+        // });
     }
   }
 
