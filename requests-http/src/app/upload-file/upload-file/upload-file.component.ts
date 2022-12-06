@@ -24,6 +24,7 @@ export class UploadFileComponent implements OnInit {
   onChange(event: Event) {
     const target = event.target as HTMLInputElement;
     this.files = target.files;
+    console.log(this.files);
     this.temArquivoUpado = true;
     this.valueProgressBar = 0;
   }
